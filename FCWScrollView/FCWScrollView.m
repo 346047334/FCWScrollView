@@ -82,7 +82,12 @@
     //设置当前页
     _pageControl.currentPage=_currentImageIndex;
 }
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+//将要开始减速的时候禁止交互，停止后开启交互，避免连续拖动导致scrollViewDidEndDecelerating不会被连续调用引起的bug
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+    self.userInteractionEnabled = NO;
+}
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    self.userInteractionEnabled = YES;
     //重新加载图片
     [self reloadImage];
     //移动到中间
